@@ -49,7 +49,9 @@ jobs:
         run: yarn test:run
 
       - name: Configure npm auth
-        run: yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
+        run: |
+          yarn config set npmRegistryServer https://registry.npmjs.org
+          yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
 
       - name: Publish @semantic-lambda/core
         if: contains(needs.release-please.outputs.paths_released, 'packages/core')

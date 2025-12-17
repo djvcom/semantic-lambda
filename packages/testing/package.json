@@ -1,0 +1,74 @@
+{
+  "name": "@semantic-lambda/testing",
+  "version": "0.1.0",
+  "description": "Testing utilities for @semantic-lambda/core with in-memory exporters and assertion helpers",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublishOnly": "yarn build && yarn lint && yarn test:run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@opentelemetry/api": "^1.4.0",
+    "@semantic-lambda/core": "^0.1.0"
+  },
+  "dependencies": {
+    "@opentelemetry/resources": "^2.2.0",
+    "@opentelemetry/sdk-trace-base": "^2.2.0",
+    "@opentelemetry/sdk-trace-node": "^2.2.0"
+  },
+  "keywords": [
+    "opentelemetry",
+    "otel",
+    "lambda",
+    "testing",
+    "tracing",
+    "vitest",
+    "jest",
+    "test-utilities",
+    "mock",
+    "aws-lambda",
+    "unit-testing",
+    "telemetry",
+    "apm",
+    "monitoring"
+  ],
+  "author": "Daniel Verrall <djverrall@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djvcom/semantic-lambda.git",
+    "directory": "packages/testing"
+  },
+  "homepage": "https://github.com/djvcom/semantic-lambda#readme",
+  "bugs": {
+    "url": "https://github.com/djvcom/semantic-lambda/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "name": "@semantic-lambda/core",
+  "version": "0.1.0",
+  "description": "OpenTelemetry semantic span wrapper for AWS Lambda handlers following FaaS conventions",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./middy": {
+      "import": {
+        "types": "./dist/middy.d.ts",
+        "default": "./dist/middy.js"
+      },
+      "require": {
+        "types": "./dist/middy.d.cts",
+        "default": "./dist/middy.cjs"
+      }
+    },
+    "./auto": {
+      "import": {
+        "types": "./dist/entries/auto.d.ts",
+        "default": "./dist/entries/auto.js"
+      },
+      "require": {
+        "types": "./dist/entries/auto.d.cts",
+        "default": "./dist/entries/auto.cjs"
+      }
+    },
+    "./extractors": {
+      "import": {
+        "types": "./dist/entries/extractors.d.ts",
+        "default": "./dist/entries/extractors.js"
+      },
+      "require": {
+        "types": "./dist/entries/extractors.d.cts",
+        "default": "./dist/entries/extractors.cjs"
+      }
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublishOnly": "yarn build && yarn lint && yarn test:run"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "@middy/core": ">=4.0.0",
+    "@opentelemetry/api": "^1.4.0"
+  },
+  "peerDependenciesMeta": {
+    "@middy/core": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@aws-lambda-powertools/parser": "^2.30.0",
+    "@opentelemetry/core": "^2.2.0",
+    "@opentelemetry/propagator-aws-xray": "^2.1.4",
+    "@opentelemetry/semantic-conventions": "^1.38.0",
+    "zod": "^4.2.1"
+  },
+  "keywords": [
+    "opentelemetry",
+    "otel",
+    "lambda",
+    "aws",
+    "aws-lambda",
+    "tracing",
+    "semantic-conventions",
+    "observability",
+    "spans",
+    "faas",
+    "instrumentation",
+    "serverless",
+    "telemetry",
+    "apm",
+    "monitoring",
+    "distributed-tracing"
+  ],
+  "author": "Daniel Verrall <djverrall@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djvcom/semantic-lambda.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/djvcom/semantic-lambda#readme",
+  "bugs": {
+    "url": "https://github.com/djvcom/semantic-lambda/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

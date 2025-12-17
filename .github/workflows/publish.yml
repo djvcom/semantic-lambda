@@ -37,6 +37,9 @@ jobs:
       - name: Run tests
         run: yarn test:run
 
+      - name: Configure npm auth
+        run: yarn config set npmAuthToken ${{ secrets.NPM_TOKEN }}
+
       - name: Publish @semantic-lambda/core
         if: ${{ inputs.package == 'core' || inputs.package == 'both' }}
         run: yarn workspace @semantic-lambda/core npm publish --access public

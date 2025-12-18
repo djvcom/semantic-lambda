@@ -7,9 +7,11 @@ import {
   finaliseSpanSuccess,
   prepareSpanCreation,
 } from '../internal/span-lifecycle'
-import type { AsyncHandler } from '../internal/wrap'
+import type { AsyncHandler, Handler } from '../internal/wrap'
 import { allTriggers } from '../triggers/index'
 
+export type { Handler }
+/** @deprecated Use `Handler` instead */
 export type { AsyncHandler }
 
 export interface WrapperOptions {
@@ -18,9 +20,9 @@ export interface WrapperOptions {
 
 export interface AutoWrapperInstance {
   <TResult = unknown>(
-    handler: AsyncHandler<unknown, TResult>,
+    handler: Handler<unknown, TResult>,
     options?: WrapperOptions,
-  ): AsyncHandler<unknown, TResult>
+  ): Handler<unknown, TResult>
   resetColdStart: () => void
   resetDetector: () => void
 }
@@ -54,9 +56,9 @@ export function wrapWithEventDetection(tracer: Tracer): AutoWrapperInstance {
   const detector = new CachedDetector(allTriggers)
 
   const wrap = <TResult>(
-    handler: AsyncHandler<unknown, TResult>,
+    handler: Handler<unknown, TResult>,
     options?: WrapperOptions,
-  ): AsyncHandler<unknown, TResult> => {
+  ): Handler<unknown, TResult> => {
     return async (event: unknown, lambdaContext: Context): Promise<TResult> => {
       const isColdStart = coldStartTracker.isColdStart()
 

@@ -29,7 +29,9 @@
 
 // Primary API
 export {
+  /** @deprecated Use `Handler` instead */
   type AsyncHandler,
+  type Handler,
   type WrapInstance,
   type WrapperOptions,
   wrap,

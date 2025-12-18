@@ -158,32 +158,45 @@ This means you don't need try/catch blocks for observability purposes. The error
 If you need to handle errors yourself while still recording them, you can create child spans:
 
 ```typescript
-import { trace, SpanStatusCode } from '@opentelemetry/api'
+import { trace, SpanKind, SpanStatusCode } from '@opentelemetry/api'
 import { wrap, sqsTrigger } from '@semantic-lambda/core'
 
+const tracer = trace.getTracer('my-service')
+
 export const handler = wrap(tracer, sqsTrigger, async (event, context) => {
+  const batchItemFailures: { itemIdentifier: string }[] = []
+
   for (const record of event.Records) {
-    const span = trace.getTracer('my-service').startSpan('processRecord')
-    try {
-      await processRecord(record)
-      span.setStatus({ code: SpanStatusCode.OK })
-    } catch (error) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: error.message })
-      span.recordException(error)
-      // Handle error (e.g., add to batchItemFailures) instead of re-throwing
-    } finally {
-      span.end()
-    }
+    await tracer.startActiveSpan(
+      `process ${record.messageId}`,
+      { kind: SpanKind.INTERNAL },
+      async span => {
+        try {
+          const body = JSON.parse(record.body)
+          await processMessage(body)
+          span.setStatus({ code: SpanStatusCode.OK })
+        } catch (error) {
+          span.setStatus({ code: SpanStatusCode.ERROR, message: error.message })
+          span.recordException(error)
+          batchItemFailures.push({ itemIdentifier: record.messageId })
+        } finally {
+          span.end()
+        }
+      },
+    )
   }
-  return { batchItemFailures: [] }
+
+  return { batchItemFailures }
 })
 ```
 
 ## Context Propagation
 
 The wrapper automatically extracts trace context from:
-- **HTTP triggers**: W3C Trace Context headers (`traceparent`, `tracestate`)
-- **SQS**: X-Ray trace header in message attributes
+- **HTTP triggers**: W3C Trace Context headers (`traceparent`, `tracestate`) and X-Ray
+- **SQS/SNS**: W3C Trace Context from message attributes (injected by `@opentelemetry/instrumentation-aws-sdk`) and X-Ray from system attributes
+
+For pub/sub triggers (SQS, SNS), each message becomes a span link rather than a parent context, as messages may originate from different traces.
 
 ## Performance
 

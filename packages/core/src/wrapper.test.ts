@@ -264,14 +264,16 @@ describe('Semantic Lambda Wrappers', () => {
         expect(spans).toHaveLength(1)
 
         const span = spans[0]!
-        // First record becomes parent context, remaining 2 records become span links
-        expect(span.links).toHaveLength(2)
+        // All records become span links (pub/sub semantics - no parent, all links)
+        expect(span.links).toHaveLength(3)
 
-        // Verify links have valid trace context
-        expect(span.links[0]?.context.traceId).toBe('5f84c7a700000000cccccccccccccccc')
-        expect(span.links[0]?.context.spanId).toBe('dddddddddddddddd')
-        expect(span.links[1]?.context.traceId).toBe('5f84c7a700000000eeeeeeeeeeeeeeee')
-        expect(span.links[1]?.context.spanId).toBe('ffffffffffffffff')
+        // Verify links have valid trace context from all 3 records
+        expect(span.links[0]?.context.traceId).toBe('5f84c7a700000000aaaaaaaaaaaaaaaa')
+        expect(span.links[0]?.context.spanId).toBe('bbbbbbbbbbbbbbbb')
+        expect(span.links[1]?.context.traceId).toBe('5f84c7a700000000cccccccccccccccc')
+        expect(span.links[1]?.context.spanId).toBe('dddddddddddddddd')
+        expect(span.links[2]?.context.traceId).toBe('5f84c7a700000000eeeeeeeeeeeeeeee')
+        expect(span.links[2]?.context.spanId).toBe('ffffffffffffffff')
       })
 
       it('handles SQS event with empty Records array', async () => {

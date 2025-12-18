@@ -30,7 +30,7 @@
     "prepublishOnly": "yarn build && yarn lint && yarn test:run"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "peerDependencies": {
     "@opentelemetry/api": "^1.4.0",

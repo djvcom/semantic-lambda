@@ -114,7 +114,7 @@ yarn lint
 
 ## Requirements
 
-- Node.js 20, 22, or 24
+- Node.js 24+
 
 ## Licence
 

@@ -11,10 +11,10 @@ import {
   finaliseSpanSuccess,
 } from './span-lifecycle'
 
-export type AsyncHandler<TEvent = unknown, TResult = unknown> = (
+export type Handler<TEvent = unknown, TResult = unknown> = (
   event: TEvent,
   context: Context,
-) => Promise<TResult>
+) => Promise<TResult> | TResult
 
 export interface WrapperOptions {
   spanNameOverride?: string
@@ -49,10 +49,13 @@ export interface WrapInstance<TEvent, TResult> {
  * })
  * ```
  */
+/** @deprecated Use `Handler` instead */
+export type AsyncHandler<TEvent = unknown, TResult = unknown> = Handler<TEvent, TResult>
+
 export function wrap<TEvent, TResult>(
   tracer: Tracer,
   trigger: TriggerConfig<TEvent>,
-  handler: AsyncHandler<TEvent, TResult>,
+  handler: Handler<TEvent, TResult>,
   options?: WrapperOptions,
 ): WrapInstance<TEvent, TResult> {
   const coldStartTracker = new ColdStartTracker()

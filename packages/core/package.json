@@ -60,7 +60,7 @@
     "prepublishOnly": "yarn build && yarn lint && yarn test:run"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "peerDependencies": {
     "@middy/core": ">=4.0.0",

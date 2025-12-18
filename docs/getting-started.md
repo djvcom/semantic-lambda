@@ -4,7 +4,7 @@ This guide walks you through setting up `@semantic-lambda/core` in your AWS Lamb
 
 ## Prerequisites
 
-- Node.js 20 or later
+- Node.js 24 or later
 - An existing Lambda project with TypeScript
 - OpenTelemetry SDK configured (or use `@semantic-lambda/testing` for tests)
 

@@ -17,7 +17,6 @@
   "pull-request-title-pattern": "chore: release ${component} ${version}",
   "include-component-in-tag": true,
   "include-v-in-tag": true,
-  "bootstrap-sha": "46914c91bdea4cf174fb354fa6ec2076fef4a785",
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
     { "type": "fix", "section": "Bug Fixes" },

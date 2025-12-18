@@ -12,9 +12,9 @@
   },
   "release-type": "node",
   "bump-minor-pre-major": true,
-  "bump-patch-for-minor-pre-major": true,
-  "group-pull-request-title-pattern": "chore: release ${version}",
-  "pull-request-title-pattern": "chore: release ${component} ${version}",
+  "bump-patch-for-minor-pre-major": false,
+  "separate-pull-requests": true,
+  "pull-request-title-pattern": "chore(release): ${component} v${version}",
   "include-component-in-tag": true,
   "include-v-in-tag": true,
   "changelog-sections": [

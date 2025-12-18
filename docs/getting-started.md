@@ -57,7 +57,7 @@ import './instrumentation.js'
 import { trace } from '@opentelemetry/api'
 import { wrap, apiGatewayV2Trigger } from '@semantic-lambda/core'
 
-const tracer = trace.getTracer('my-service', '1.0.0')
+const tracer = trace.getTracer('get-user-handler', '1.0.0')
 
 export const handler = wrap(tracer, apiGatewayV2Trigger, async (event, context) => {
   // Your business logic here
@@ -84,6 +84,49 @@ environment:
   OTEL_EXPORTER_OTLP_ENDPOINT: https://your-collector.example.com
   OTEL_SERVICE_NAME: ${self:service}
 ```
+
+## Understanding Tracers
+
+The `wrap()` function requires an OpenTelemetry `Tracer` instance. This might seem like unnecessary ceremony, but it serves an important purpose.
+
+### What is a Tracer?
+
+A tracer represents an [instrumentation scope](https://opentelemetry.io/docs/concepts/instrumentation-scope/) — it identifies the source of telemetry data. When you create spans, the tracer's name and version are attached, helping you understand which part of your system generated the trace.
+
+```typescript
+const tracer = trace.getTracer('get-user-handler', '1.0.0')
+```
+
+- **Name**: Identifies your instrumentation scope. For Lambda functions, use the function or module name (e.g., `get-user-handler`, `process-order-handler`).
+- **Version**: Optional but recommended. Helps correlate traces with specific deployments.
+
+### Why Pass It Explicitly?
+
+Rather than using a global tracer, `@semantic-lambda/core` asks you to pass the tracer explicitly. This:
+
+1. **Avoids hidden dependencies** — The tracer comes from your OpenTelemetry setup, not a global singleton
+2. **Enables testing** — You can pass a test tracer with an in-memory exporter
+3. **Supports multiple tracers** — Different handlers can use different instrumentation scopes if needed
+
+### Recommended Naming
+
+The tracer name identifies the *instrumentation scope* — which part of your code generated the telemetry. This is separate from `service.name` (a resource attribute that identifies the deployed service).
+
+A service might comprise multiple Lambda functions. Use one tracer per handler to differentiate telemetry from each function:
+
+```typescript
+// Good — one tracer per handler
+const tracer = trace.getTracer('get-user-handler')
+const tracer = trace.getTracer('process-order-handler')
+const tracer = trace.getTracer('webhook-receiver')
+
+// Avoid — duplicates service.name or is too generic
+const tracer = trace.getTracer('user-service')     // This belongs in service.name
+const tracer = trace.getTracer('lambda')           // Which lambda?
+const tracer = trace.getTracer('my-app-prod-v2')   // Environment belongs in resource attributes
+```
+
+When viewing traces, you'll see both the `service.name` (which service) and the instrumentation scope (which function/module within that service).
 
 ## Choosing Between Explicit and Dynamic Detection
 

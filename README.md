@@ -112,6 +112,16 @@ yarn workspaces foreach -A run typecheck
 yarn lint
 ```
 
+### Using Nix
+
+A `flake.nix` is provided for reproducible development environments:
+
+```bash
+nix develop
+```
+
+This gives you Node.js 24 and Yarn without needing to install them globally.
+
 ## Requirements
 
 - Node.js 24+

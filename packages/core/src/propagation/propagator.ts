@@ -1,5 +1,5 @@
-import type { Context, TextMapGetter } from '@opentelemetry/api'
-import { ROOT_CONTEXT } from '@opentelemetry/api'
+import type { Context, Link, TextMapGetter } from '@opentelemetry/api'
+import { isSpanContextValid, ROOT_CONTEXT, trace } from '@opentelemetry/api'
 import {
   CompositePropagator,
   W3CBaggagePropagator,
@@ -84,4 +84,32 @@ export function extractContextFromXRayHeader(header: string | undefined): Contex
   }
 
   return lambdaPropagator.extract(ROOT_CONTEXT, carrier, httpHeaderGetter)
+}
+
+/**
+ * Extracts trace context from a carrier using the composite propagator.
+ * The propagator handles all header name knowledge (W3C, X-Ray, Baggage).
+ */
+export function extractContextFromCarrier(carrier: Record<string, string | undefined>): Context {
+  if (!carrier || Object.keys(carrier).length === 0) {
+    return ROOT_CONTEXT
+  }
+
+  const normalisedCarrier: Record<string, string | undefined> = {}
+  for (const [key, value] of Object.entries(carrier)) {
+    normalisedCarrier[key.toLowerCase()] = value
+  }
+
+  return lambdaPropagator.extract(ROOT_CONTEXT, normalisedCarrier, httpHeaderGetter)
+}
+
+/**
+ * Creates a span link from a context if it contains a valid span context.
+ */
+export function createSpanLinkFromContext(context: Context): Link | undefined {
+  const spanContext = trace.getSpanContext(context)
+  if (spanContext && isSpanContextValid(spanContext)) {
+    return { context: spanContext }
+  }
+  return undefined
 }

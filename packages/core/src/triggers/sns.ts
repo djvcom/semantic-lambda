@@ -1,6 +1,6 @@
 import { SnsSchema } from '@aws-lambda-powertools/parser/schemas'
 import type { Attributes, Link, Context as OtelContext } from '@opentelemetry/api'
-import { ROOT_CONTEXT, trace } from '@opentelemetry/api'
+import { ROOT_CONTEXT } from '@opentelemetry/api'
 import {
   ATTR_MESSAGING_BATCH_MESSAGE_COUNT,
   ATTR_MESSAGING_DESTINATION_NAME,
@@ -11,12 +11,12 @@ import {
   MESSAGING_OPERATION_TYPE_VALUE_PROCESS,
   MESSAGING_SYSTEM_VALUE_AWS_SNS,
 } from '@opentelemetry/semantic-conventions/incubating'
-import type { SNSEvent } from 'aws-lambda'
+import type { SNSEvent, SNSEventRecord } from 'aws-lambda'
 import { extractTopicName } from '../internal/arn'
 import {
-  extractContextFromXRayHeader,
-  extractXRayHeaderFromSnsAttributes,
-  isSnsMessageAttributes,
+  createSpanLinkFromContext,
+  extractContextFromCarrier,
+  normaliseSnsMessageAttributes,
 } from '../propagation'
 import type { TriggerConfig } from './base'
 
@@ -50,37 +50,40 @@ export function getSnsSpanName(event: SNSEvent): string {
   return destinationName ? `${destinationName} process` : 'multiple_sources process'
 }
 
-export function extractSnsParentContext(event: SNSEvent): OtelContext {
-  const firstRecord = event.Records[0]
-  if (firstRecord?.Sns.MessageAttributes) {
-    const attrs: unknown = firstRecord.Sns.MessageAttributes
-    if (isSnsMessageAttributes(attrs)) {
-      const xrayHeader = extractXRayHeaderFromSnsAttributes(attrs)
-      if (xrayHeader) {
-        return extractContextFromXRayHeader(xrayHeader)
-      }
-    }
-  }
+/**
+ * Extracts trace context from an SNS record's message attributes.
+ * Uses the propagator to extract context (supports W3C and X-Ray).
+ */
+function extractContextFromSnsRecord(record: SNSEventRecord): OtelContext {
+  const carrier = normaliseSnsMessageAttributes(record.Sns.MessageAttributes)
+  return extractContextFromCarrier(carrier)
+}
+
+/**
+ * Returns ROOT_CONTEXT for SNS events.
+ *
+ * For pub/sub semantics, we don't use any message's context as the parent.
+ * Each message may come from a different producer/trace, so the processing
+ * span should be its own root. Use extractSnsSpanLinks to get links to all
+ * producer spans.
+ */
+export function extractSnsParentContext(_event: SNSEvent): OtelContext {
   return ROOT_CONTEXT
 }
 
+/**
+ * Creates span links from ALL SNS records in the batch.
+ * Each link connects this processing span to the producer span that sent the message.
+ * Supports both W3C trace context and X-Ray (via messageAttributes).
+ */
 export function extractSnsSpanLinks(event: SNSEvent): Link[] {
   const links: Link[] = []
 
-  for (let i = 1; i < event.Records.length; i++) {
-    const record = event.Records[i]
-    if (record?.Sns.MessageAttributes) {
-      const attrs: unknown = record.Sns.MessageAttributes
-      if (isSnsMessageAttributes(attrs)) {
-        const xrayHeader = extractXRayHeaderFromSnsAttributes(attrs)
-        if (xrayHeader) {
-          const context = extractContextFromXRayHeader(xrayHeader)
-          const spanContext = trace.getSpanContext(context)
-          if (spanContext?.traceId && spanContext.spanId) {
-            links.push({ context: spanContext })
-          }
-        }
-      }
+  for (const record of event.Records) {
+    const context = extractContextFromSnsRecord(record)
+    const link = createSpanLinkFromContext(context)
+    if (link) {
+      links.push(link)
     }
   }
 

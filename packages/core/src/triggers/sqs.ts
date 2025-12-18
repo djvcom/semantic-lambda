@@ -1,6 +1,6 @@
 import { SqsSchema } from '@aws-lambda-powertools/parser/schemas'
 import type { Attributes, Link, Context as OtelContext } from '@opentelemetry/api'
-import { ROOT_CONTEXT, trace } from '@opentelemetry/api'
+import { ROOT_CONTEXT } from '@opentelemetry/api'
 import {
   ATTR_MESSAGING_BATCH_MESSAGE_COUNT,
   ATTR_MESSAGING_DESTINATION_NAME,
@@ -11,12 +11,13 @@ import {
   MESSAGING_OPERATION_TYPE_VALUE_PROCESS,
   MESSAGING_SYSTEM_VALUE_AWS_SQS,
 } from '@opentelemetry/semantic-conventions/incubating'
-import type { SQSEvent } from 'aws-lambda'
+import type { SQSEvent, SQSRecord } from 'aws-lambda'
 import { extractQueueName } from '../internal/arn'
 import {
-  extractContextFromXRayHeader,
-  extractXRayHeaderFromSqsAttributes,
-  isSqsMessageAttributes,
+  createSpanLinkFromContext,
+  extractContextFromCarrier,
+  normaliseSqsMessageAttributes,
+  normaliseSqsSystemAttributes,
 } from '../propagation'
 import type { TriggerConfig } from './base'
 
@@ -49,37 +50,45 @@ export function getSqsSpanName(event: SQSEvent): string {
   return destinationName ? `${destinationName} process` : 'multiple_sources process'
 }
 
-export function extractSqsParentContext(event: SQSEvent): OtelContext {
-  const firstRecord = event.Records[0]
-  if (firstRecord?.attributes) {
-    const attrs: unknown = firstRecord.attributes
-    if (isSqsMessageAttributes(attrs)) {
-      const xrayHeader = extractXRayHeaderFromSqsAttributes(attrs)
-      if (xrayHeader) {
-        return extractContextFromXRayHeader(xrayHeader)
-      }
-    }
+/**
+ * Extracts trace context from an SQS record's attributes.
+ * Merges message attributes first, then system attributes (so system wins conflicts).
+ * This prevents malicious injection of x-amzn-trace-id via user message attributes
+ * while preserving W3C context (traceparent/tracestate) from SDK instrumentation.
+ */
+function extractContextFromSqsRecord(record: SQSRecord): OtelContext {
+  const carrier = {
+    ...normaliseSqsMessageAttributes(record.messageAttributes),
+    ...normaliseSqsSystemAttributes(record.attributes),
   }
+  return extractContextFromCarrier(carrier)
+}
+
+/**
+ * Returns ROOT_CONTEXT for SQS events.
+ *
+ * For pub/sub semantics, we don't use any message's context as the parent.
+ * Each message may come from a different producer/trace, so the processing
+ * span should be its own root. Use extractSqsSpanLinks to get links to all
+ * producer spans.
+ */
+export function extractSqsParentContext(_event: SQSEvent): OtelContext {
   return ROOT_CONTEXT
 }
 
+/**
+ * Creates span links from ALL SQS records in the batch.
+ * Each link connects this processing span to the producer span that sent the message.
+ * Supports both W3C trace context (from messageAttributes) and X-Ray (from system attributes).
+ */
 export function extractSqsSpanLinks(event: SQSEvent): Link[] {
   const links: Link[] = []
 
-  for (let i = 1; i < event.Records.length; i++) {
-    const record = event.Records[i]
-    if (record?.attributes) {
-      const attrs: unknown = record.attributes
-      if (isSqsMessageAttributes(attrs)) {
-        const xrayHeader = extractXRayHeaderFromSqsAttributes(attrs)
-        if (xrayHeader) {
-          const context = extractContextFromXRayHeader(xrayHeader)
-          const spanContext = trace.getSpanContext(context)
-          if (spanContext?.traceId && spanContext.spanId) {
-            links.push({ context: spanContext })
-          }
-        }
-      }
+  for (const record of event.Records) {
+    const context = extractContextFromSqsRecord(record)
+    const link = createSpanLinkFromContext(context)
+    if (link) {
+      links.push(link)
     }
   }
 

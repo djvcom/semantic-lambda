@@ -749,7 +749,7 @@ __metadata:
     "@opentelemetry/sdk-trace-node": "npm:^2.2.0"
   peerDependencies:
     "@opentelemetry/api": ^1.4.0
-    "@semantic-lambda/core": ^0.1.0
+    "@semantic-lambda/core": ^0.2.0
   languageName: unknown
   linkType: soft
 

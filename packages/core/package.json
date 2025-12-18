@@ -1,6 +1,6 @@
 {
   "name": "@semantic-lambda/core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "OpenTelemetry semantic span wrapper for AWS Lambda handlers following FaaS conventions",
   "type": "module",
   "sideEffects": false,

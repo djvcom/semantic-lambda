@@ -1,6 +1,6 @@
 {
   "name": "@semantic-lambda/testing",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Testing utilities for @semantic-lambda/core with in-memory exporters and assertion helpers",
   "type": "module",
   "sideEffects": false,
@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "@opentelemetry/api": "^1.4.0",
-    "@semantic-lambda/core": "^0.1.0"
+    "@semantic-lambda/core": "^0.2.0"
   },
   "dependencies": {
     "@opentelemetry/resources": "^2.2.0",

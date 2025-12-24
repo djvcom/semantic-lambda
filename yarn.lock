@@ -514,12 +514,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@opentelemetry/propagator-aws-xray@npm:^2.1.4":
-  version: 2.1.4
-  resolution: "@opentelemetry/propagator-aws-xray@npm:2.1.4"
+"@opentelemetry/propagator-aws-xray@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "@opentelemetry/propagator-aws-xray@npm:2.2.0"
   peerDependencies:
     "@opentelemetry/api": ">=1.0.0 <1.10.0"
-  checksum: 10c0/9c5f6ebea1aec8dbc1832a5dc530c22a163a79d9c4429c428bbbd1308001a66e4714947706a8acab9725bd5601afb4bb27af0fdb1534e2c78bd60ef243318b13
+  checksum: 10c0/2fa665a1e867a8ff3fb3875db5d302a8f3c625337ae18378f9bc0a29633484e61b9fb8c3d2b5f1096b285b92a96c4615af4e5adfbca2a971dcee3b604953e5ba
   languageName: node
   linkType: hard
 
@@ -728,7 +728,7 @@ __metadata:
   dependencies:
     "@aws-lambda-powertools/parser": "npm:^2.30.0"
     "@opentelemetry/core": "npm:^2.2.0"
-    "@opentelemetry/propagator-aws-xray": "npm:^2.1.4"
+    "@opentelemetry/propagator-aws-xray": "npm:^2.2.0"
     "@opentelemetry/semantic-conventions": "npm:^1.38.0"
     zod: "npm:^4.2.1"
   peerDependencies:

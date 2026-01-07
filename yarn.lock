@@ -5,21 +5,21 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@aws-lambda-powertools/commons@npm:2.30.0":
-  version: 2.30.0
-  resolution: "@aws-lambda-powertools/commons@npm:2.30.0"
+"@aws-lambda-powertools/commons@npm:2.30.1":
+  version: 2.30.1
+  resolution: "@aws-lambda-powertools/commons@npm:2.30.1"
   dependencies:
     "@aws/lambda-invoke-store": "npm:0.2.2"
-  checksum: 10c0/7baa8e9f31fd3e18472e7141bef765d2e60c85708f6b3db47ec1381784a715a5591224999bdd3e79543f67a0c870542e9860facc4d265bd048ec7450dc2b1bc8
+  checksum: 10c0/4eee610cf3d900e24dd9bba3308cbc9cc19b988d4ba00cc09f144c2ac14a3f99251e8e5764e1f81f871339c11faff789e3a67809e89c6f1b5ca4be77885cfec5
   languageName: node
   linkType: hard
 
-"@aws-lambda-powertools/parser@npm:^2.30.0":
-  version: 2.30.0
-  resolution: "@aws-lambda-powertools/parser@npm:2.30.0"
+"@aws-lambda-powertools/parser@npm:^2.30.1":
+  version: 2.30.1
+  resolution: "@aws-lambda-powertools/parser@npm:2.30.1"
   dependencies:
-    "@aws-lambda-powertools/commons": "npm:2.30.0"
-    "@standard-schema/spec": "npm:^1.0.0"
+    "@aws-lambda-powertools/commons": "npm:2.30.1"
+    "@standard-schema/spec": "npm:^1.1.0"
   peerDependencies:
     "@middy/core": 4.x || 5.x || 6.x
     zod: 4.x
@@ -28,7 +28,7 @@ __metadata:
       optional: true
     zod:
       optional: true
-  checksum: 10c0/ea48fba47a448343c247f8952494329be360aa8072f7f598de0f6d8dbe68bae0892e3557309e9796029efc8015d31d906dab46e62103c403b81c559a22edef97
+  checksum: 10c0/a35454a54dd213564bee779081602f5d5e5a239ec4402d26414d25408e35ddb945f18ee754d691a2789574141b5c918824e5d40bbfc26fbf37e5e75ecc6f304a
   languageName: node
   linkType: hard
 
@@ -726,7 +726,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@semantic-lambda/core@workspace:packages/core"
   dependencies:
-    "@aws-lambda-powertools/parser": "npm:^2.30.0"
+    "@aws-lambda-powertools/parser": "npm:^2.30.1"
     "@opentelemetry/core": "npm:^2.2.0"
     "@opentelemetry/propagator-aws-xray": "npm:^2.1.4"
     "@opentelemetry/semantic-conventions": "npm:^1.38.0"
@@ -763,7 +763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:^1.0.0":
+"@standard-schema/spec@npm:^1.0.0, @standard-schema/spec@npm:^1.1.0":
   version: 1.1.0
   resolution: "@standard-schema/spec@npm:1.1.0"
   checksum: 10c0/d90f55acde4b2deb983529c87e8025fa693de1a5e8b49ecc6eb84d1fd96328add0e03d7d551442156c7432fd78165b2c26ff561b970a9a881f046abb78d6a526

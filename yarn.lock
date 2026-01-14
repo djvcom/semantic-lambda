@@ -5,37 +5,37 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"@aws-lambda-powertools/commons@npm:2.30.0":
-  version: 2.30.0
-  resolution: "@aws-lambda-powertools/commons@npm:2.30.0"
+"@aws-lambda-powertools/commons@npm:2.30.2":
+  version: 2.30.2
+  resolution: "@aws-lambda-powertools/commons@npm:2.30.2"
   dependencies:
-    "@aws/lambda-invoke-store": "npm:0.2.2"
-  checksum: 10c0/7baa8e9f31fd3e18472e7141bef765d2e60c85708f6b3db47ec1381784a715a5591224999bdd3e79543f67a0c870542e9860facc4d265bd048ec7450dc2b1bc8
+    "@aws/lambda-invoke-store": "npm:0.2.3"
+  checksum: 10c0/4147877b7f3621ff0c45d99a19a3a6bdf295ff4ff69b6c3bc49c9cb15b0f91d12650fc90377a968c659c9e1a5b3b059ef85d1e4c76b7ae36fb6335b66ed4b7d1
   languageName: node
   linkType: hard
 
-"@aws-lambda-powertools/parser@npm:^2.30.0":
-  version: 2.30.0
-  resolution: "@aws-lambda-powertools/parser@npm:2.30.0"
+"@aws-lambda-powertools/parser@npm:^2.30.2":
+  version: 2.30.2
+  resolution: "@aws-lambda-powertools/parser@npm:2.30.2"
   dependencies:
-    "@aws-lambda-powertools/commons": "npm:2.30.0"
-    "@standard-schema/spec": "npm:^1.0.0"
+    "@aws-lambda-powertools/commons": "npm:2.30.2"
+    "@standard-schema/spec": "npm:^1.1.0"
   peerDependencies:
-    "@middy/core": 4.x || 5.x || 6.x
+    "@middy/core": 4.x || 5.x || 6.x || 7.x
     zod: 4.x
   peerDependenciesMeta:
     "@middy/core":
       optional: true
     zod:
       optional: true
-  checksum: 10c0/ea48fba47a448343c247f8952494329be360aa8072f7f598de0f6d8dbe68bae0892e3557309e9796029efc8015d31d906dab46e62103c403b81c559a22edef97
+  checksum: 10c0/f24de4ce682bb98c02454bddf1e8fa173d24c26437e58f336ee05497222e88ffe00f699c1bf17d8294bf9bee602da6f362cefbb513b2ec38b051ffa3faea220f
   languageName: node
   linkType: hard
 
-"@aws/lambda-invoke-store@npm:0.2.2":
-  version: 0.2.2
-  resolution: "@aws/lambda-invoke-store@npm:0.2.2"
-  checksum: 10c0/0ce2f527e2ab6b07372a08a137991163b99bf646b8dbbb01dbc5370f4e578aa6ddf7f09a63ecead576f04ce54e52cb927c12683f4d97e322dcb76ddfc5843784
+"@aws/lambda-invoke-store@npm:0.2.3":
+  version: 0.2.3
+  resolution: "@aws/lambda-invoke-store@npm:0.2.3"
+  checksum: 10c0/3869a5d2494ff81fba306d603c0f2e36c59f89c4efdffd1105a208a595da77059547209a163b6f0c1b716e9d273ce24f94dcbd5a08bad74b2602d13711b0cb3b
   languageName: node
   linkType: hard
 
@@ -726,7 +726,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@semantic-lambda/core@workspace:packages/core"
   dependencies:
-    "@aws-lambda-powertools/parser": "npm:^2.30.0"
+    "@aws-lambda-powertools/parser": "npm:^2.30.2"
     "@opentelemetry/core": "npm:^2.2.0"
     "@opentelemetry/propagator-aws-xray": "npm:^2.1.4"
     "@opentelemetry/semantic-conventions": "npm:^1.38.0"
@@ -763,7 +763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:^1.0.0":
+"@standard-schema/spec@npm:^1.0.0, @standard-schema/spec@npm:^1.1.0":
   version: 1.1.0
   resolution: "@standard-schema/spec@npm:1.1.0"
   checksum: 10c0/d90f55acde4b2deb983529c87e8025fa693de1a5e8b49ecc6eb84d1fd96328add0e03d7d551442156c7432fd78165b2c26ff561b970a9a881f046abb78d6a526

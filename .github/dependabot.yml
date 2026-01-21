@@ -8,9 +8,17 @@ updates:
       opentelemetry:
         patterns:
           - "@opentelemetry/*"
+      aws:
+        patterns:
+          - "@aws-lambda-powertools/*"
+          - "@types/aws-lambda"
+      runtime:
+        patterns:
+          - "zod"
       development:
         patterns:
           - "@types/*"
+          - "!@types/aws-lambda"
           - "@biomejs/*"
           - "vitest"
           - "@vitest/*"

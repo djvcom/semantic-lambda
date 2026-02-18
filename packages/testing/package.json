@@ -37,9 +37,9 @@
     "@semantic-lambda/core": "^0.2.0"
   },
   "dependencies": {
-    "@opentelemetry/resources": "^2.5.0",
-    "@opentelemetry/sdk-trace-base": "^2.5.0",
-    "@opentelemetry/sdk-trace-node": "^2.5.0"
+    "@opentelemetry/resources": "^2.5.1",
+    "@opentelemetry/sdk-trace-base": "^2.5.1",
+    "@opentelemetry/sdk-trace-node": "^2.5.1"
   },
   "keywords": [
     "opentelemetry",

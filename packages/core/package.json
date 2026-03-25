@@ -72,7 +72,7 @@
     }
   },
   "dependencies": {
-    "@aws-lambda-powertools/parser": "^2.31.0",
+    "@aws-lambda-powertools/parser": "^2.32.0",
     "@opentelemetry/core": "^2.6.0",
     "@opentelemetry/propagator-aws-xray": "^2.2.0",
     "@opentelemetry/semantic-conventions": "^1.40.0",

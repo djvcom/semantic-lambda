@@ -73,9 +73,9 @@
   },
   "dependencies": {
     "@aws-lambda-powertools/parser": "^2.33.1",
-    "@opentelemetry/core": "^2.8.0",
+    "@opentelemetry/core": "^2.9.0",
     "@opentelemetry/propagator-aws-xray": "^2.2.0",
-    "@opentelemetry/semantic-conventions": "^1.41.1",
+    "@opentelemetry/semantic-conventions": "^1.42.0",
     "zod": "^4.4.3"
   },
   "keywords": [

@@ -21,17 +21,17 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.5",
+    "@biomejs/biome": "^2.5.11",
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/instrumentation-winston": "^0.65.0",
     "@tsconfig/node20": "^20.1.10",
     "@tsconfig/strictest": "^2.0.8",
     "@types/aws-lambda": "^8.10.162",
-    "@types/node": "^25.3.3",
-    "@vitest/coverage-v8": "^4.0.18",
+    "@types/node": "^26.4.0",
+    "@vitest/coverage-v8": "^4.1.11",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.18",
+    "vitest": "^4.1.11",
     "winston": "^3.19.0"
   }
 }

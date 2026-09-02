@@ -76,7 +76,7 @@
     "@opentelemetry/core": "^2.10.0",
     "@opentelemetry/propagator-aws-xray": "^2.2.0",
     "@opentelemetry/semantic-conventions": "^1.43.0",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "keywords": [
     "opentelemetry",

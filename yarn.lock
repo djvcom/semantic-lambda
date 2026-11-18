@@ -803,10 +803,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tsconfig/node20@npm:^20.1.10":
-  version: 20.1.10
-  resolution: "@tsconfig/node20@npm:20.1.10"
-  checksum: 10c0/8ae050b55fceec0aaf3233f7ac41647ec7fc1af0d919c74323c35393fc3c036da7a961ab2391de929467d734d677d6e066c9206ac8adbf0a0bc314f527ef7b4a
+"@tsconfig/node20@npm:^20.1.11":
+  version: 20.1.11
+  resolution: "@tsconfig/node20@npm:20.1.11"
+  checksum: 10c0/e1e55da3fc6884b215f3a5c2962dacbdb6a1c0a1d0360175401f094a749fd5089466fe03444568cb49a9919168613780107da941529a62cba56dbe0c4f010a73
   languageName: node
   linkType: hard
 
@@ -2085,7 +2085,7 @@ __metadata:
     "@biomejs/biome": "npm:^2.4.5"
     "@opentelemetry/api": "npm:^1.10.0"
     "@opentelemetry/instrumentation-winston": "npm:^0.69.0"
-    "@tsconfig/node20": "npm:^20.1.10"
+    "@tsconfig/node20": "npm:^20.1.11"
     "@tsconfig/strictest": "npm:^2.0.8"
     "@types/aws-lambda": "npm:^8.10.164"
     "@types/node": "npm:^25.3.3"
